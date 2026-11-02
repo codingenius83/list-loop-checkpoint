@@ -573,26 +573,42 @@ print(values)
 # - Handle an empty list and invalid menu selections.
 # - Keep running until the user chooses Exit.
 line(38)
-items = ['pizza','chicken','rice','water','coke']
-shopping_list = []
-def menu():
-    print("\n1. add item\n2.remove item\n3. view numbered items\n4.search for item\n5.exit")
-def display_items():
-    print()
-    for item in items:
-        print(items.index(item) + 1, f". {item}")
-    print()
-game = True
-while game:
-    menu()
-    action = input('what would you like to do? ')
+cart = []
+while True:
+    print("1. Add item\n2. Remove item\n3. View numbered items\n4. Search for item\n5. Exit")
+    action = input("what would you like to do? (1-5): ")
     if action == "1":
-        display_items()
-        action1 = input('which would you like to add? ')
-        if action1 < 1 or action1 > len(items):
+        add = input("what would you like to add to your cart: ")
+        if add in cart:
+            print('already have in cart')
+        else:
+            cart.append(add)
+    elif action == "2":
+        if len(cart) == 0:
+            print("nothing in cart")
             pass
         else:
-            game = False
+            for item in cart:
+                print(str(cart.index(item) + 1), item)
+            choice = input(f"what would you like to remove (1-{len(cart)})")
+            if choice < 1 or choice > len(cart):
+                print("not in list")
+                pass
+            else:
+                cart.pop(choice-1)
+    elif action == "3":
+        if len(cart) == 0:
+            print('nothing in cart')
+        else:
+            for item in cart:
+                print(str(cart.index(item)+1), item)
+    elif action == "4":
+        pass #imtoo laxy
+    elif action == "5":
+        break
+
+
+
 
 # TASK 39 — GRADE ANALYZER:
 # Create a function named analyze_grades(grades).
@@ -604,7 +620,40 @@ while game:
 # Test: analyze_grades([95, 82, 67, 74, 58])
 # Expected: [95, 58, 75.2, 3, 2]
 # Test with a single grade and all-negative values too.
+line(39)
 def analyze_grades(grades):
+    returned_list = []
+
+    highest_grade = 0
+    for g in grades:
+        if g > highest_grade:
+            highest_grade = g
+    returned_list.append(highest_grade)
+
+    lowest_grade = 100
+    for g in grades:
+        if g < lowest_grade:
+            lowest_grade = g
+    returned_list.append(lowest_grade)
+
+    total = 0
+    for g in grades:
+        total += g
+    average_grade = total / len(grades)
+    returned_list.append(average_grade)
+
+    passing_count = 0
+    failing_count = 0
+    for g in grades:
+        if g >= 70:
+            passing_count += 1
+        else:
+            failing_count += 1
+    returned_list.append(passing_count)
+    returned_list.append(failing_count)
+
+    return returned_list
+    
 
 
 # TASK 40 — STUDENT ATTENDANCE SYSTEM:
@@ -623,6 +672,23 @@ def analyze_grades(grades):
 # - Create attendance_percentage(present, students) that RETURNS
 #   the percentage; if students is empty, RETURN 0.
 # - Test with all present, all absent, and a mixture.
+line(40)
+students = ["Alex", "Jordan", "Taylor", "Morgan", "Casey"]
+present = []
+absent = []
+
+for student in students:
+    attendance = input(f'is {student} present or absent (P, A): ')
+    while attendance not in ["P", "A"]:
+        print("incorrect input")
+        attendance = input("P or A")
+    if attendance == "P":
+        if student not in present and student not in absent:
+            present.append(student)
+    elif attendance == "A":
+        if student not in present and student not in absent:
+            absent.append(student)
+
 
 
 # ============================================================
